@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            padding-top: 150px;
+        }
+
+        header.sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.sticky h1 {
+            font-size: 1.5rem;
+        }
+
+        header h1 {
+            text-align: center;
+            color: #e50914;
+            padding: 1rem 0;
+            transition: font-size 0.3s ease;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: auto;
+        }
+
+        .slideshow-images {
+            display: flex;
+            width: 800%;
+            height: 100%;
+            animation: slide 15s infinite linear;
+        }
+
+        .slideshow-image {
+            flex-shrink: 0;
+            width: 12.5%;
+            height: 100%;
+        }
+
+        .slideshow-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            12.5% { transform: translateX(0); }
+            25% { transform: translateX(-12.5%); }
+            37.5% { transform: translateX(-12.5%); }
+            50% { transform: translateX(-25%); }
+            62.5% { transform: translateX(-25%); }
+            75% { transform: translateX(-37.5%); }
+            87.5% { transform: translateX(-37.5%); }
+            100% { transform: translateX(0); }
+        }
+
+        .movie-section {
+            padding: 2rem;
+        }
+
+        h2 {
+            text-align: center;
+            color: #e50914;
+            margin-bottom: 2rem;
+        }
+
+        .top-movies, .top-five {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .movie-card {
+            position: relative;
+            width: 30%;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card img {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            border-radius: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card:hover img {
+            opacity: 0;
+        }
+
+        .movie-card:hover video {
+            opacity: 1;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            z-index: 1000;
+            width: 250px;
+        }
+
+        .tooltip h3 {
+            margin-bottom: 0.5rem;
+            color: #e50914;
+        }
+
+        .tooltip p {
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        header .qq .ww {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        header .qq .ww li a {
+            text-decoration: none;
+            color: #ffffff;
+            transition: color 0.3s;
+            margin-left: 900px;
+            border: 2px solid white;
+            padding: 10px 15px;
+        }
+
+        header .qq .ww :hover {
+            color: #2600ff;
+          
+        }
+        header .rr {
+            font-size: x-large;
+            text-align: right;
+            padding-right: 50px;
+            padding-bottom: 20px;
+            margin-bottom: 50px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sticky Header Functionality
+            const header = document.querySelector('header.rr');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
+            });
+
+            // Movie Card Tooltip and Video Functionality
+            const movieCards = document.querySelectorAll('.movie-card');
+            const tooltip = document.getElementById('tooltip');
+            movieCards.forEach(card => {
+                const video = card.querySelector('video');
+                card.addEventListener('mouseenter', () => {
+                    const title = card.getAttribute('data-title');
+                    const genre = card.getAttribute('data-genre');
+                   
+                    tooltip.innerHTML = `
+                        <h3>${title}</h3>
+                        <p><strong>Genre:</strong> ${genre}</p>`;
+                    tooltip.style.display = 'block';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                        if (video.requestFullscreen) {
+                            video.requestFullscreen();
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+
+                card.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = `${e.pageX + 15}px`;
+                    tooltip.style.top = `${e.pageY + 15}px`;
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header class="rr">
+        <div class="container">
+            <h1>The PETA Output</h1>  <nav class="qq">
+                <ul class="ww">
+                <li><a href="homepage.html">Home</a></li>
+                </ul>
+                </nav>
+        </div>
+    </header>
+    <main>
+        <section class="hero-section">
+            <div class="slideshow-container">
+                <div class="slideshow-images">
+                    <div class="slideshow-image">
+                        <img src="Mamamiapstr.jpg" alt="Mamma Mia">
+                    </div>
+                    <div class="slideshow-image">
+                        <img src="Theshawshankredemptionpstr.jpg" alt="Shawshank Redemption">
+                    </div>
+                    <div class="slideshow-image">
+                        <img src="Interstellarpstr.jpg" alt="Interstellar">
+                    </div>
+                    <div class="slideshow-image">
+                        <img src="Spyxfamilycodewhitepstr.jpg" alt="Spy Movie">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="movie-section">
+            <h2>Top 3 Rated Movies</h2>
+            <div class="top-movies">
+                <div class="movie-card" data-title="Mamma Mia!" data-genre="Musical, Romantic Comedy" >
+                    <img src="Mamamiapstr.jpg" alt="Mamma Mia Poster">
+                    <video muted loop>
+                        <source src="mamamiatrailer.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Shawshank Redemption" data-genre="Thriller, Mystery" >
+                    <img src="Theshawshankredemptionpstr.jpg" alt="Movie 2 Cover">
+                    <video muted loop>
+                        <source src="The Shawshank Redemption.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Interstellar" data-genre="Action, Drama" >
+                    <img src="Interstellarpstr.jpg" alt="Movie 3 Cover">
+                    <video muted loop>
+                        <source src="Interstellar.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+        <section class="movie-section">
+            <h2>Top 5 of Our Picks</h2>
+            <div class="top-five">
+                <div class="movie-card" data-title="Spy x Family: Code" data-genre="Action, Comedy, Spy, Thriller, Adventure, Animation">
+                    <img src="Spyxfamilycodewhitepstr.jpg" alt="Movie 4 Cover">
+                    <video muted loop>
+                        <source src="Spy x Family Code_ White.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Conjuring" data-genre="Horror, Drama, Mystery, Thriller" >
+                    <img src="conjuring.jpg" alt="Movie 5 Cover">
+                    <video muted loop>
+                        <source src="The Conjuring 1.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Wrong Turn 1" data-genre="Horror, Cannibal, Thriller, Action" >
+                    <img src="wrongturnpstr.jpg" alt="Movie 6 Cover">
+                    <video muted loop>
+                        <source src="Wrong Turn.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Fight Club" data-genre="Action, Mystery, Crime Film" >
+                    <img src="Fightclubpstr.jpg" alt="Movie 7 Cover">
+                    <video muted loop>
+                        <source src="Fight Club.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="movie-card" data-title="Titanic" data-genre="Fantasy" >
+                    <img src="Titanicpstr.jpg" alt="Movie 8 Cover">
+                    <video muted loop>
+                        <source src="Titanic Trailer.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="tooltip" class="tooltip"></div>
+</body>
+</html>
